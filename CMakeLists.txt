@@ -4,6 +4,11 @@ project(ex3)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g  -Wall -Werror -Wvla")
 
 set(SOURCE_FILES
-    GenericDFS.h)
+    GenericDFS.h
+        GenericDFS.c
+        SudokuSolver.c
+        SudokuTree.c
+        SudokuTree.h
+        )
 
 add_executable(ex3 ${SOURCE_FILES})
