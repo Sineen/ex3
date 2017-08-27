@@ -3,8 +3,12 @@
 //
 
 #include <stddef.h>
+#include <assert.h>
 #include "Stack.h"
 #define EMPTY (-1)
+
+#define visitedd 1
+#define unVisited 0
 //#include <obstack.h>
 
 typedef void* pNode;
@@ -17,14 +21,10 @@ typedef void freeNodeFunc(pNode);
 
 typedef pNode copyNodeFunc(pNode);
 
-//struct pNode
-//{
-//	int value;
-//	int visited;
-//	pNode* node;
-//	pNode* rightChild;
-//	pNode* leftChild;
-//};
+int wasVisted (pNode arr[], pNode* u);
+void addToVisited(pNode arr[], pNode* u , copyNodeFunc copy);
+
+
 /**
  * @brief getBest This function returns the best valued node in a tree using
  * DFS algorithm.
@@ -63,34 +63,72 @@ pNode getBest(pNode head, getNodeChildrenFunc getChildren,
 //	end if
 //		end while
 //		END DFS()
-	stack stack1;
-	int visited[MAXSIZE] = {0};
-	int j,i = 0; // number of node we are on;
+	stack* stack1 = stackNew();
+
+
+	pNode visited[MAXSIZE] = {NULL};
+	int j; // number of node we are on;
 	unsigned int val = getVal(head);
 	if (val == best){
 		return head;
 	}
-	push(stack1, head);
-	while (stack1.top != EMPTY)
+	push(*stack1, head);
+	while (stack1->top != EMPTY)
 	{
-		pNode u = copy(pop(stack1));
-		i++; // next  node tehre for next place in the visited list;
+		pNode u = copy(pop(*stack1));
 		val = getVal(u);
 		if (val == best){
 			return u;
 		}
-		if (visited[i] == 0){
-			visited[0] = 1;
+		if ( wasVisted(visited, &u) == unVisited)
+		{
+			addToVisited(visited, &u, copy);
 		}
+
+
 		pNode** children1 = NULL;  // a pointer to an array of all the children of the node.
-		int number_of_kids = getChildren(head, children1); // already allocated memory to children
-		int number_of_nodes = number_of_kids + i;
+		int number_of_kids = getChildren(u, children1); // already allocated memory to children
 		for (j = 0; j < number_of_kids; j++)
 		{
-			push(stack1,*(children1+j));
+			if( wasVisted(visited, *(children1+j)) == unVisited) // if nto visted
+			{
+				push(*stack1,*(children1+j));
+			}
+
 		}
 		freeNode(children1);
+		freeStack(stack1);
+	}
+	return NULL;
+}
+
+
+
+int wasVisted(pNode *arr, pNode *u)
+{
+	int wasVisited = unVisited;
+	int i;
+	for(i = 0; i < MAXSIZE ; i++ )
+	{
+		if (arr[i] == u)
+		{
+			wasVisited = visitedd;
+		}
 	}
 
+	return wasVisited;
 }
+
+void addToVisited(pNode *arr, pNode *u, copyNodeFunc copy)
+{
+	int i = 0;
+	while ( arr[i] != NULL)
+	{
+		i++;
+	}
+	assert( arr[i] == NULL);
+	arr[i] = copy(u);
+}
+
+
 

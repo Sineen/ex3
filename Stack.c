@@ -3,16 +3,34 @@
 //
 
 #include <stdio.h>
+#include <malloc.h>
 #include "Stack.h"
 
+#define EMPTY (-1)
 //void initStack(stack s)
 //{
 //	s.stk; // maloc??
 //	s.top = -1;
 //}
+stack* stackNew()
+{
+	stack* stack = (stack*) malloc(sizeof(stack));
+	if (stack != NULL) {
+		stack->top = EMPTY;
+	} else {
+		printf("out of memory, cannot create stack\n");
+	}
+	return stack;
+}
 
+
+void freeStack(stack* s)
+{
+	free(s->stk);
+	free(&s->top);
+}
 /*  Function to add an element to the stack */
-void push (stack s, pNode num)
+void push (stack s, pNode node)
 {
 	if (s.top == (MAXSIZE - 1))
 	{
@@ -22,7 +40,7 @@ void push (stack s, pNode num)
 	{
 //	push  the element to the stack  ");
 		s.top = s.top + 1;
-		s.stk[s.top] = num;
+		s.stk[s.top] = node;
 	}
 }
 

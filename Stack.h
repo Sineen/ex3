@@ -18,6 +18,8 @@ typedef struct stack
 
 void push(stack, pNode);
 pNode pop(stack);
+stack* stackNew();
+void freeStack(stack*);
 
 
 #endif //EX3_STACK_H

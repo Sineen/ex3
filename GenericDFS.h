@@ -12,6 +12,7 @@ typedef void freeNodeFunc(pNode);
 
 typedef pNode copyNodeFunc(pNode);
 
+
 /**
  * @brief getBest This function returns the best valued node in a tree using
  * DFS algorithm.
