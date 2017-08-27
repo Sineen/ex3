@@ -12,8 +12,9 @@ typedef struct pNode
 	struct pNode* leftChild;
 	struct pNode* upChild;
 	struct pNode* downChild;
-
-	int visited;
+	int row; // which inner square does it belong to
+	int colume; // which inner square does it belong to
+	int empty;
 }pNode;
 /**
  * getChildren A function that gets a node and a pointer to array of nodes.

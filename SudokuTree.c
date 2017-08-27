@@ -8,21 +8,23 @@
 int getNodeChildrenFunc(pNode node, pNode** pNode1/*for the result*/)
 {
 	int counter = 0;
-	if (node.downChild != NULL)
+
+	if (node.upChild != NULL)
 	{
 		++counter;
-		pNode1[counter] = node.downChild;
-
+		pNode1[counter] = node.upChild;
 	}
 	if (node.leftChild != NULL)
 	{
 		++counter;
 		pNode1[counter] = node.leftChild;
 	}
-	if (node.upChild != NULL)
+
+	if (node.downChild != NULL)
 	{
 		++counter;
-		pNode1[counter] = node.upChild;
+		pNode1[counter] = node.downChild;
+
 	}
 	if (node.rightChild != NULL)
 	{
@@ -61,8 +63,10 @@ void freeNodeFunc(pNode node)
 pNode copyNodeFunc(pNode node)
 {
 	pNode newcopy;
-	newcopy.visited = node.visited;
+	newcopy.empty = node.empty;
 	newcopy.value = node.value;
+	newcopy.row = node.row;
+	newcopy.colume = node.colume;
 	size_t sizep = sizeof(node.downChild);
 	memcpy(newcopy.leftChild,node.leftChild, sizep);
 	memcpy(newcopy.rightChild,node.rightChild, sizep);

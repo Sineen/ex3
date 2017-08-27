@@ -7,7 +7,7 @@
 
 #include "GenericDFS.h"
 
-#define MAXSIZE 10000
+#define MAXSIZE 500
 
 typedef struct stack
 {
