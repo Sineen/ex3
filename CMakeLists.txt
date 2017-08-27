@@ -9,6 +9,6 @@ set(SOURCE_FILES
         SudokuSolver.c
         SudokuTree.c
         SudokuTree.h
-        )
+        Stack.c Stack.h)
 
 add_executable(ex3 ${SOURCE_FILES})
