@@ -10,7 +10,9 @@
 #include <assert.h>
 #include <memory.h>
 #include "SudokuTree.h"
-//#include <libGenericDFS.a>
+#include "GenericDFS.h"
+#include <limits.h>
+
 #define NOT_ROOT (-1)
 #define MISSING_NUMBER (-2)
 #define NEGATIVE_NUMBER (-3)
@@ -25,7 +27,7 @@
 #define MAXSIZE (100)
 #define BASE (10)
 #define DELIM ("\n ")
-#define EMPTY 0
+
 
 char* fileName;
 void checkRange(int num, int size);
@@ -34,25 +36,11 @@ void readFile(FILE* in);
 void checkIfNotDigit(const char* string);
 void checkIfPositive(int num);
 void errors(int errorNumber);
+pBoard solveSudo(pBoard board);
+void printBoard(pNode node);
 
-pNode** createSudoBoard(const int* size)
-{
-	pNode** board = (pNode**)malloc((*size) * (*size) * sizeof(int));
-	return board;
-}
 
-void freeboard(int* board)
-{
-	free(board);
-}
-pNode getNodeFromBoard(int row, int colume, int size , pNode* board)
-{
-	//int offset = i * cols + j;
-// now mat[offset] corresponds to m(i, j)
-	//for row-major ordering and
-	//int offset = i + rows * j;
-	return board[row + size * colume];
-}
+
 
 void checkRoot(int size)
 {
@@ -78,40 +66,7 @@ void checkIfNotDigit(const char *string)
 }
 
 
-pNode* nodesInSameRow(pNode node, pNode** board, int size)
-{
-	int index = 0;
-	pNode* row = (pNode*) malloc(MAXSIZE);
-	for (int i = 0; i < size; i++)
-	{
-		if (getNodeFromBoard(node.row, i, size, *board).value  != EMPTY )
-		{
-			row[index] = copyNodeFunc(getNodeFromBoard(node.row, i, size, *board));
-		}
-	}
-	return row;
-}
 
-
-pNode* nodesInSameColum(pNode node, pNode** board, int size)
-{
-	int index = 0;
-	pNode* cul = (pNode*) malloc(MAXSIZE);
-	for (int i = 0; i < size ; i++)
-	{
-		if (getNodeFromBoard(i, node.colume, size, *board).value  != EMPTY )
-		{
-			cul[index] = copyNodeFunc(getNodeFromBoard(i, node.colume, size, *board));
-		}
-	}
-	return cul;
-}
-
-pNode* nodesInSameSquare(pNode node, pNode** board, int size)
-{
-	assert(sqrt(size) == )
-	int root = sqrt(size);
-}
 void checkRange(int num, int size)
 {
 	// checks if the number is in range 0 < num < size
@@ -152,10 +107,10 @@ void readFile(FILE *in)
 	checkIfPositive(size);
 	checkRange(size, size);
 	int i, j, numOfCul, value;
-	pNode** sudokuBoard = createSudoBoard(&size);
+	pBoard sudokuBoard = createSudoBoard(size);
 	char * line = NULL;
 	char* token = NULL;
-	pNode* node;
+	Node* node;
 
 //	char* lines[size];
 	for (i = 0; i < size; i++) // goes through rows
@@ -177,14 +132,19 @@ void readFile(FILE *in)
 			checkIfNotDigit(token);
 			value = strToInt(token);
 			checkRange(value, size);
-			node = createNode();
+			node = createNode(size);
 			node->value = (unsigned int) value;
 			node->colume = j;
 			node->row = i;
-			if (node->value == EMPTY) node->empty = EMPTY;
-			sudokuBoard[i + size * j] = node;
+			sudokuBoard->sBoard[i + size * j] = node;
 		}
 		if( numOfCul != size) errors(MISSING_NUMBER);
+	}
+	pBoard solved = solveSudo(sudokuBoard);
+	if (solved == NULL) fprintf(stdout," no solution");
+	else
+	{
+		printBoard(solved);
 	}
 }
 
@@ -222,7 +182,31 @@ void errors(int errorNumber)
 	}
 }
 
+pBoard solveSudo(pBoard board)
+{
+	unsigned int size = INT_MAX;
+	{
+		//pNode getBest(pNode head, getNodeChildrenFunc getChildren,
+		//getNodeValFunc getVal, freeNodeFunc freeNode, copyNodeFunc copy, unsigned int best)
 
+		return (getBest(board,getNodeChildrenFunc1, getNodeValFunc1, freeNodeFunc1, copyNodeFunc1, size));
+	}
+}
+
+void printBoard(pNode node)
+{
+	pBoard board = (pBoard) node;
+	int counter = 0;
+	fprintf(stdout, "%d\n", board->size);
+	for (int i = 0; i < sizeof(board->sBoard) ; ++i)
+	{
+		if (counter == sqrt(board->size))
+		{
+			fprintf(stdout,"\n");
+		}
+		fprintf(stdout, "%d\n", board->sBoard[i]->value);
+	}
+}
 
 
 int main(int argc, char *argv[])
@@ -240,6 +224,7 @@ int main(int argc, char *argv[])
 		fileName = argv[0];
 		FILE* inputFile = fopen(argv[1], "r");
 		readFile(inputFile);
+		fclose(inputFile);
 
 	}
 }

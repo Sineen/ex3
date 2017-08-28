@@ -7,21 +7,44 @@
 
 #define MAX 99
 //#include "Stack.h"
+#include <malloc.h>
+#include <memory.h>
+#include <assert.h>
+#include <math.h>
+#include "GenericDFS.h"
 
-typedef struct pNode
+
+typedef struct Node
 {
-	struct pNode *children[MAX];
-	struct pNode* parent;
+	int* possible;
 	unsigned int value;
+	int size;
 	int row; // which inner square does it belong to
 	int colume; // which inner square does it belong to
-	int empty;
-}pNode;
+}Node;
 
-pNode* createNode(){
-	pNode* node = ( pNode *) malloc(sizeof(pNode));
+typedef struct
+{
+	Node** sBoard;
+	int size;
+} Board;
+
+typedef Board* pBoard;
+
+Node* createNode(int size){
+	Node* node = (Node *) malloc(sizeof(Node));
+	node->size = size;
+	node->possible = (int *) malloc(size * sizeof(int));
 	return node;
 }
+
+pBoard createSudoBoard(const int size)
+{
+	pBoard board = (pBoard)malloc((size) * (size) * sizeof(int));
+	board->size = size;
+	return board;
+}
+
 
 /**
  * getChildren A function that gets a node and a pointer to array of nodes.
@@ -33,7 +56,7 @@ pNode* createNode(){
  */
 
 
-int getNodeChildrenFunc(pNode, pNode** /*for the result*/);
+int getNodeChildrenFunc1(pNode , pNode ** /*for the result*/);
 
 
 /**
@@ -41,17 +64,17 @@ int getNodeChildrenFunc(pNode, pNode** /*for the result*/);
  * @return
  */
 
-unsigned int getNodeValFunc(pNode);
+unsigned int getNodeValFunc1(pNode);
 
 /**
  * freeNode A function that frees node from memory.
  * this function will be called for each Node returns by getChilds.
  */
-void freeNodeFunc(pNode);
+void freeNodeFunc1(pNode);
 /**
  * copy A function that do deep copy of Node.
  * @return
  */
-pNode copyNodeFunc(pNode);
+pNode copyNodeFunc1(pNode);
 
 #endif //EX3_SUDOKUTREE_H
