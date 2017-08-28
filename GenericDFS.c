@@ -64,8 +64,6 @@ pNode getBest(pNode head, getNodeChildrenFunc getChildren,
 //		end while
 //		END DFS()
 	stack* stack1 = stackNew();
-
-
 	pNode visited[MAXSIZE] = {NULL};
 	int j; // number of node we are on;
 	unsigned int val = getVal(head);
@@ -84,8 +82,6 @@ pNode getBest(pNode head, getNodeChildrenFunc getChildren,
 		{
 			addToVisited(visited, &u, copy);
 		}
-
-
 		pNode** children1 = NULL;  // a pointer to an array of all the children of the node.
 		int number_of_kids = getChildren(u, children1); // already allocated memory to children
 		for (j = 0; j < number_of_kids; j++)
@@ -94,7 +90,6 @@ pNode getBest(pNode head, getNodeChildrenFunc getChildren,
 			{
 				push(*stack1,*(children1+j));
 			}
-
 		}
 		freeNode(children1);
 		freeStack(stack1);

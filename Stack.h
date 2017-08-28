@@ -13,7 +13,7 @@ typedef struct stack
 {
 	pNode stk[MAXSIZE];
 	int top;
-} stack;
+}stack;
 
 
 void push(stack, pNode);

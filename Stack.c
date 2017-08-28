@@ -12,15 +12,17 @@
 //	s.stk; // maloc??
 //	s.top = -1;
 //}
+
+
 stack* stackNew()
 {
-	stack* stack = (stack*) malloc(sizeof(stack));
-	if (stack != NULL) {
-		stack->top = EMPTY;
+	stack* s = (stack*) malloc(sizeof(stack));
+	if (s != NULL) {
+		s->top = EMPTY;
 	} else {
-		printf("out of memory, cannot create stack\n");
+		fprintf(stderr, "out of memory, cannot create stack\n");
 	}
-	return stack;
+	return s;
 }
 
 

@@ -5,17 +5,24 @@
 #ifndef EX3_SUDOKUTREE_H
 #define EX3_SUDOKUTREE_H
 
+#define MAX 99
+//#include "Stack.h"
+
 typedef struct pNode
 {
+	struct pNode *children[MAX];
+	struct pNode* parent;
 	unsigned int value;
-	struct pNode* rightChild;
-	struct pNode* leftChild;
-	struct pNode* upChild;
-	struct pNode* downChild;
 	int row; // which inner square does it belong to
 	int colume; // which inner square does it belong to
 	int empty;
 }pNode;
+
+pNode* createNode(){
+	pNode* node = ( pNode *) malloc(sizeof(pNode));
+	return node;
+}
+
 /**
  * getChildren A function that gets a node and a pointer to array of nodes.
  * the function allocates memory for an array of all the children of the node, and
@@ -24,6 +31,8 @@ typedef struct pNode
  * the node has)
  * @return
  */
+
+
 int getNodeChildrenFunc(pNode, pNode** /*for the result*/);
 
 
